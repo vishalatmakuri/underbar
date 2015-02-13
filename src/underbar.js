@@ -322,19 +322,20 @@
   // instead if possible.
   _.memoize = function(func) {
     var result;
-    var old_arg={};
+    var old_arg={arg:{}, result:{}};
     var test = function(x, y){
-      if(!(y in x)){return true;}
-      else{return false;}
+      return (JSON.stringify(x) === JSON.stringify(y));
     };
     
       return function (){
-         old_arg.arg= arguments;
-        if (test(old_arg, func)) {
+         
+        if (!test(old_arg.arg, arguments)) {
           result = func.apply(this, arguments);
-            old_arg.result = result;
+          old_arg.result = result;
+          
      }
         else{result = old_arg.result;}
+        old_arg.arg = arguments;
         return result;
       };
   };
@@ -346,10 +347,17 @@
   // The arguments for the original function are passed after the wait
   // parameter. For example _.delay(someFunction, 500, 'a', 'b') will
   // call someFunction('a', 'b') after 500ms
-  _.delay = function(func, wait) {
-    
-  };
-
+  _.delay = function(func,wait){
+  var time = new Date().getTime();
+  var result ;
+  while ((new Date().getTime()- time)<=wait){  
+     }   
+  if (arguments.length>2) {
+result =   func(arguments[2],arguments[3]);
+  }
+   else{ result = func.apply(this);}
+  return result;
+};
 
   /**
    * ADVANCED COLLECTION OPERATIONS
