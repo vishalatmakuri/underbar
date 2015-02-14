@@ -349,13 +349,15 @@
   // call someFunction('a', 'b') after 500ms
   _.delay = function(func,wait){
   var time = new Date().getTime();
+  var args = _.last(arguments,2);
   var result ;
-  while ((new Date().getTime()- time)<=wait){  
+  var getnewTime= function(){return new Date().getTime();} 
+  while ((getnewTime- time)<=wait){  
      }   
   if (arguments.length>2) {
-result =   func(arguments[2],arguments[3]);
+result =   func.apply(null, args);
   }
-   else{ result = func.apply(this);}
+   else{ result = func.apply(null);}
   return result;
 };
 
@@ -369,7 +371,19 @@ result =   func(arguments[2],arguments[3]);
   // TIP: This function's test suite will ask that you not modify the original
   // input array. For a tip on how to make a copy of an array, see:
   // http://mdn.io/Array.prototype.slice
-  _.shuffle = function(array) {
+  _.shuffle = function(array) { 
+    var arr_len= array.length;
+    var temp;
+    var random;
+    var old_arr = array.slice(0);
+    var new_arr= [];
+    while (arr_len>=1){
+      temp = Math.floor(Math.random()*(arr_len-1));
+      new_arr.push(old_arr[temp]);
+      old_arr .splice(temp,1);
+      arr_len--;
+    }
+    return new_arr;
   };
 
 
