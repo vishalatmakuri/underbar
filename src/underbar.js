@@ -349,17 +349,19 @@
   // call someFunction('a', 'b') after 500ms
   _.delay = function(func,wait){
   var time = new Date().getTime();
-  var args = _.last(arguments,2);
   var result ;
-  var getnewTime= function(){return new Date().getTime();} 
-  while ((getnewTime- time)<=wait){  
+  var getnewTime= function(){return new Date().getTime();} ;
+  while ((getnewTime()- time)<=wait){  
      }   
   if (arguments.length>2) {
-result =   func.apply(null, args);
+     var args = [];
+    args.push(arguments[2]);
+    args.push(arguments[3]);
+    result =   func.apply(null, args);
   }
    else{ result = func.apply(null);}
   return result;
-};
+};  
 
   /**
    * ADVANCED COLLECTION OPERATIONS
@@ -374,7 +376,6 @@ result =   func.apply(null, args);
   _.shuffle = function(array) { 
     var arr_len= array.length;
     var temp;
-    var random;
     var old_arr = array.slice(0);
     var new_arr= [];
     while (arr_len>=1){
@@ -383,6 +384,7 @@ result =   func.apply(null, args);
       old_arr .splice(temp,1);
       arr_len--;
     }
+    
     return new_arr;
   };
 
@@ -398,6 +400,7 @@ result =   func.apply(null, args);
   // Calls the method named by functionOrKey on each value in the list.
   // Note: You will need to learn a bit about .apply to complete this.
   _.invoke = function(collection, functionOrKey, args) {
+    
   };
 
   // Sort the object's values by a criterion produced by an iterator.
